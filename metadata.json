@@ -6,11 +6,14 @@
   "name": "Kiwi Menu",
   "settings-schema": "org.gnome.shell.extensions.kiwimenu",
   "shell-version": [
+    "45",
+    "46",
+    "47",
     "48",
     "49"
   ],
   "url": "https://github.com/kem-a/kiwi-menu",
   "uuid": "kiwimenu@kemma",
   "version": "",
-  "version-name": "0.0.1"
+  "version-name": "1.0.0"
 }
