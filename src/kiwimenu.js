@@ -54,6 +54,10 @@ export const KiwiMenu = GObject.registerClass(
         )
       );
 
+      if (this.menu?.actor) {
+        this.menu.actor.add_style_class_name('kiwi-main-menu');
+      }
+
       this._icon = new St.Icon({
         style_class: 'menu-button',
       });

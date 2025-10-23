@@ -129,16 +129,10 @@ export const RecentItemsSubmenu = GObject.registerClass(
       text,
       style_class: 'popup-section-header-label',
       y_align: Clutter.ActorAlign.CENTER,
-    });
-
-    const separator = new St.Widget({
-      style_class: 'popup-section-header-separator',
-      y_align: Clutter.ActorAlign.CENTER,
       x_expand: true,
     });
 
     header.add_child(label);
-    header.add_child(separator);
 
     return header;
   }
@@ -173,6 +167,8 @@ export const RecentItemsSubmenu = GObject.registerClass(
       }
     }
 
+    let hasEntries = false;
+
     // Add files section
     if (files.length > 0) {
       const filesHeader = this._createSectionHeader('Files');
@@ -192,6 +188,12 @@ export const RecentItemsSubmenu = GObject.registerClass(
         });
         menu.addMenuItem(recentMenuItem);
       });
+
+      if (folders.length > 0) {
+        menu.addMenuItem(new PopupMenu.PopupSeparatorMenuItem());
+      }
+
+      hasEntries = true;
     }
 
     // Add folders section
@@ -213,6 +215,32 @@ export const RecentItemsSubmenu = GObject.registerClass(
         });
         menu.addMenuItem(recentMenuItem);
       });
+
+      hasEntries = true;
+    }
+
+    if (hasEntries) {
+      menu.addMenuItem(new PopupMenu.PopupSeparatorMenuItem());
+
+      const clearItem = new PopupMenu.PopupMenuItem('Clear menu');
+      clearItem.connect('activate', () => this._clearRecentItems());
+      menu.addMenuItem(clearItem);
+    }
+  }
+
+  _clearRecentItems() {
+    const file = Gio.File.new_for_path(RECENT_ITEMS_FILE);
+
+    try {
+      if (file.query_exists(null)) {
+        file.delete(null);
+      }
+    } catch (error) {
+      logError(error, 'Failed to clear recent items list');
+    }
+
+    if (this._recentMenu) {
+      this._populateMenu(this._recentMenu);
     }
   }
 
