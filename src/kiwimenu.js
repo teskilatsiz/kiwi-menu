@@ -35,7 +35,7 @@ function loadJsonFile(basePath, segments) {
 export const KiwiMenu = GObject.registerClass(
   class KiwiMenu extends PanelMenu.Button {
     _init(settings, extensionPath) {
-      super._init(0.0, 'KiwiMenu');
+      super._init(0.5, 'KiwiMenu');
 
   this._settings = settings;
   this._extensionPath = extensionPath;
@@ -56,6 +56,9 @@ export const KiwiMenu = GObject.registerClass(
 
       if (this.menu?.actor) {
         this.menu.actor.add_style_class_name('kiwi-main-menu');
+        if (typeof this.menu.setSourceAlignment === 'function') {
+          this.menu.setSourceAlignment(0.5);
+        }
       }
 
       this._icon = new St.Icon({
