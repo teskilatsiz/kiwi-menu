@@ -10,9 +10,7 @@ import GLib from 'gi://GLib';
 import GObject from 'gi://GObject';
 import Gtk from 'gi://Gtk';
 
-import { ExtensionPreferences } from 'resource:///org/gnome/Shell/Extensions/js/extensions/prefs.js';
-
-const GETTEXT_DOMAIN = 'gnome-shell-extensions-kiwimenu';
+import { ExtensionPreferences, gettext as _ } from 'resource:///org/gnome/Shell/Extensions/js/extensions/prefs.js';
 
 function loadIconsMetadata(sourcePath) {
   const textDecoder = new TextDecoder();
@@ -98,26 +96,6 @@ const OptionsPage = GObject.registerClass(
 );
 
 export default class KiwiMenuPreferences extends ExtensionPreferences {
-  constructor(metadata) {
-    super(metadata);
-    
-    // Initialize gettext domain for preferences
-    const localeDir = GLib.build_filenamev([this.path, 'locale']);
-    
-    try {
-      // Use the compatibility imports.gettext API
-      imports.gettext.bindtextdomain(GETTEXT_DOMAIN, localeDir);
-      this._gettextFunc = imports.gettext.domain(GETTEXT_DOMAIN).gettext;
-    } catch (e) {
-      console.error('Failed to initialize gettext in prefs:', e);
-      this._gettextFunc = (text) => text; // Fallback to identity function
-    }
-  }
-  
-  gettext(text) {
-    return this._gettextFunc ? this._gettextFunc(text) : text;
-  }
-
   fillPreferencesWindow(window) {
     const settings = this.getSettings();
     window._settings = settings;

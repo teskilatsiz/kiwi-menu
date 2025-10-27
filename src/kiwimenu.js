@@ -135,7 +135,7 @@ export const KiwiMenu = GObject.registerClass(
     }
 
     _gettext(text) {
-      return this._extension ? this._extension.gettext(text) : text;
+      return this._extension?.gettext(text) ?? text;
     }
 
     _showActivitiesButton() {
