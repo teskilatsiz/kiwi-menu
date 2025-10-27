@@ -5,8 +5,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: kiwimenu\n"
-"Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-10-27 12:00+0000\n"
+"Report-Msgid-Bugs-To: https://github.com/kem-a/kiwimenu-kemma/issues\n"
+"POT-Creation-Date: 2025-10-27 00:00+0000\n"
 "PO-Revision-Date: 2025-10-27 12:00+0000\n"
 "Last-Translator: \n"
 "Language-Team: Norwegian Bokmål\n"
@@ -77,18 +77,6 @@ msgid "Clear menu"
 msgstr ""
 
 #: prefs.js
-msgid "Panel"
-msgstr ""
-
-#: prefs.js
-msgid "Hide or show the Activities button from the top bar."
-msgstr ""
-
-#: prefs.js
-msgid "Hide Activities Menu"
-msgstr ""
-
-#: prefs.js
 msgid "Options"
 msgstr ""
 
@@ -109,7 +97,15 @@ msgid "Choose the icon to display in the panel."
 msgstr ""
 
 #: prefs.js
-msgid "Show Activities Button"
+msgid "Panel"
+msgstr ""
+
+#: prefs.js
+msgid "Hide or show the Activities button from the top bar."
+msgstr ""
+
+#: prefs.js
+msgid "Hide Activities Menu"
 msgstr ""
 
 #: prefs.js
@@ -117,27 +113,39 @@ msgid "Display the Activities button in the top panel."
 msgstr ""
 
 #: prefs.js
+msgid "Quick Settings"
+msgstr "Hurtiginnstillinger"
+
+#: prefs.js
+msgid "Choose which default quick action buttons stay visible."
+msgstr "Velg hvilke standard hurtighandlinger som skal være synlige."
+
+#: prefs.js
+msgid "Hide Lock Screen Button"
+msgstr "Skjul knappen Lås skjerm"
+
+#: prefs.js
+msgid "Remove the lock screen quick action button."
+msgstr "Fjerner hurtighandlingen for å låse skjermen."
+
+#: prefs.js
+msgid "Hide Power Button"
+msgstr "Skjul knappen Av/på"
+
+#: prefs.js
+msgid "Remove the power menu quick action button."
+msgstr "Fjerner hurtighandlingen for strømmenyen."
+
+#: prefs.js
+msgid "Hide Settings Button"
+msgstr "Skjul knappen Innstillinger"
+
+#: prefs.js
+msgid "Remove the settings shortcut quick action button."
+msgstr "Fjerner hurtighandlingen for snarveien til Innstillinger."
+
+#: prefs.js
 msgid "About"
-msgstr ""
-
-#: prefs.js
-msgid "Extension Version"
-msgstr ""
-
-#: prefs.js
-msgid "GNOME Shell Version"
-msgstr ""
-
-#: prefs.js
-msgid "Help & Support"
-msgstr ""
-
-#: prefs.js
-msgid "Report a Bug"
-msgstr ""
-
-#: prefs.js
-msgid "View on GitHub"
 msgstr ""
 
 #: prefs.js
@@ -173,5 +181,7 @@ msgid "Copyright"
 msgstr ""
 
 #: prefs.js
-msgid "Copyright © 2025 Arnis Kemlers. Licensed under the terms of the GNU General Public License version 3 or later."
+msgid ""
+"Copyright © 2025 Arnis Kemlers. Licensed under the terms of the GNU General "
+"Public License version 3 or later."
 msgstr ""

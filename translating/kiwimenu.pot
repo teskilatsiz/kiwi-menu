@@ -3,12 +3,11 @@
 # This file is distributed under the same license as the Kiwi Menu package.
 # FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
 #
-#, fuzzy
 msgid ""
 msgstr ""
 "Project-Id-Version: Kiwi Menu 1.0\n"
 "Report-Msgid-Bugs-To: https://github.com/kem-a/kiwimenu-kemma/issues\n"
-"POT-Creation-Date: 2025-10-27 13:13+0200\n"
+"POT-Creation-Date: 2025-10-27 00:00+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -79,18 +78,6 @@ msgid "Clear menu"
 msgstr ""
 
 #: prefs.js
-msgid "Panel"
-msgstr ""
-
-#: prefs.js
-msgid "Hide or show the Activities button from the top bar."
-msgstr ""
-
-#: prefs.js
-msgid "Hide Activities Menu"
-msgstr ""
-
-#: prefs.js
 msgid "Options"
 msgstr ""
 
@@ -111,7 +98,15 @@ msgid "Choose the icon to display in the panel."
 msgstr ""
 
 #: prefs.js
-msgid "Show Activities Button"
+msgid "Panel"
+msgstr ""
+
+#: prefs.js
+msgid "Hide or show the Activities button from the top bar."
+msgstr ""
+
+#: prefs.js
+msgid "Hide Activities Menu"
 msgstr ""
 
 #: prefs.js
@@ -119,27 +114,39 @@ msgid "Display the Activities button in the top panel."
 msgstr ""
 
 #: prefs.js
+msgid "Quick Settings"
+msgstr ""
+
+#: prefs.js
+msgid "Choose which default quick action buttons stay visible."
+msgstr ""
+
+#: prefs.js
+msgid "Hide Lock Screen Button"
+msgstr ""
+
+#: prefs.js
+msgid "Remove the lock screen quick action button."
+msgstr ""
+
+#: prefs.js
+msgid "Hide Power Button"
+msgstr ""
+
+#: prefs.js
+msgid "Remove the power menu quick action button."
+msgstr ""
+
+#: prefs.js
+msgid "Hide Settings Button"
+msgstr ""
+
+#: prefs.js
+msgid "Remove the settings shortcut quick action button."
+msgstr ""
+
+#: prefs.js
 msgid "About"
-msgstr ""
-
-#: prefs.js
-msgid "Extension Version"
-msgstr ""
-
-#: prefs.js
-msgid "GNOME Shell Version"
-msgstr ""
-
-#: prefs.js
-msgid "Help & Support"
-msgstr ""
-
-#: prefs.js
-msgid "Report a Bug"
-msgstr ""
-
-#: prefs.js
-msgid "View on GitHub"
 msgstr ""
 
 #: prefs.js

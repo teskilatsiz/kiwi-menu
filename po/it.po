@@ -5,139 +5,147 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: kiwimenu\n"
-"Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-10-27 12:00+0000\n"
+msgstr "Informazioni su questo PC"
+"POT-Creation-Date: 2025-10-27 00:00+0000\n"
 "PO-Revision-Date: 2025-10-27 12:00+0000\n"
-"Last-Translator: \n"
+msgstr "Impostazioni di sistema..."
 "Language-Team: Italian\n"
 "Language: it\n"
-"MIME-Version: 1.0\n"
+msgstr "App Store..."
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-
+msgstr "Elementi recenti"
 #: src/kiwimenu.js
 msgid "About This PC"
-msgstr ""
+msgstr "Uscita forzata"
 
 #: src/kiwimenu.js
-msgid "System Settings..."
+msgstr "Sospendi"
 msgstr ""
 
-#: src/kiwimenu.js
+msgstr "Riavvia..."
 msgid "App Store..."
 msgstr ""
-
+msgstr "Spegni..."
 #: src/kiwimenu.js
 msgid "Recent Items"
+msgstr "Blocca schermo"
+
+#: src/kiwimenu.js
+msgstr "Disconnetti..."
 msgstr ""
 
 #: src/kiwimenu.js
-msgid "Force Quit"
+msgstr "Disconnetti %s..."
 msgstr ""
 
-#: src/kiwimenu.js
-msgid "Sleep"
-msgstr ""
-
-#: src/kiwimenu.js
+msgstr "Nessun elemento recente"
 msgid "Restart..."
 msgstr ""
-
+msgstr "File"
 #: src/kiwimenu.js
 msgid "Shut Down..."
-msgstr ""
+msgstr "Cartelle"
 
 #: src/kiwimenu.js
-msgid "Lock Screen"
+msgstr "Pulisci menu"
 msgstr ""
 
-#: src/kiwimenu.js
+msgstr "Opzioni"
 msgid "Log Out..."
 msgstr ""
-
+msgstr "Menu"
 #: src/kiwimenu.js
 #, javascript-format
-msgid "Log Out %s..."
+msgstr "Regola l'aspetto e il comportamento del menu Kiwi."
 msgstr ""
 
-#: src/recentItemsSubmenu.js
+msgstr "Icona del menu"
 msgid "No recent items"
 msgstr ""
-
+msgstr "Scegli l'icona da mostrare nel pannello."
 #: src/recentItemsSubmenu.js
 msgid "Files"
-msgstr ""
+msgstr "Pannello"
 
 #: src/recentItemsSubmenu.js
-msgid "Folders"
+msgstr "Nascondi o mostra il pulsante Attività nella barra superiore."
 msgstr ""
 
-#: src/recentItemsSubmenu.js
+msgstr "Nascondi menu Attività"
 msgid "Clear menu"
 msgstr ""
-
-#: prefs.js
-msgid "Panel"
-msgstr ""
-
-#: prefs.js
-msgid "Hide or show the Activities button from the top bar."
-msgstr ""
-
-#: prefs.js
-msgid "Hide Activities Menu"
-msgstr ""
-
+msgstr "Mostra il pulsante Attività nel pannello superiore."
 #: prefs.js
 msgid "Options"
-msgstr ""
+msgstr "Impostazioni rapide"
 
 #: prefs.js
-msgid "Menu"
+msgstr "Scegli quali azioni rapide predefinite rimangono visibili."
 msgstr ""
 
-#: prefs.js
+msgstr "Nascondi pulsante Blocca schermo"
 msgid "Adjust how the Kiwi Menu looks and behaves."
 msgstr ""
-
+msgstr "Rimuove l'azione rapida per bloccare lo schermo."
 #: prefs.js
 msgid "Menu Icon"
-msgstr ""
+msgstr "Nascondi pulsante Alimentazione"
 
 #: prefs.js
-msgid "Choose the icon to display in the panel."
+msgstr "Rimuove l'azione rapida del menu di alimentazione."
 msgstr ""
 
-#: prefs.js
-msgid "Show Activities Button"
+msgstr "Nascondi pulsante Impostazioni"
+msgid "Panel"
 msgstr ""
+msgstr "Rimuove l'azione rapida del collegamento a Impostazioni."
+#: prefs.js
+msgid "Hide or show the Activities button from the top bar."
+msgstr "Informazioni"
 
 #: prefs.js
+msgstr "Sito web"
+msgstr ""
+
+msgstr "Segnala un problema"
 msgid "Display the Activities button in the top panel."
+msgstr ""
+msgstr "Riconoscimenti"
+#: prefs.js
+msgid "Quick Settings"
+msgstr "Note legali"
+
+#: prefs.js
+msgstr "Licenza"
+msgstr ""
+
+msgstr "Kiwi Menu è software libero e open source."
+msgid "Hide Lock Screen Button"
+msgstr ""
+msgstr "Licenza Pubblica Generale GNU v3.0"
+#: prefs.js
+msgid "Remove the lock screen quick action button."
+msgstr "Copyright"
+
+#: prefs.js
+msgid "Hide Power Button"
+msgstr ""
+msgstr ""
+#: prefs.js
+msgid "Remove the power menu quick action button."
+msgstr ""
+
+#: prefs.js
+msgid "Hide Settings Button"
+msgstr ""
+
+#: prefs.js
+msgid "Remove the settings shortcut quick action button."
 msgstr ""
 
 #: prefs.js
 msgid "About"
-msgstr ""
-
-#: prefs.js
-msgid "Extension Version"
-msgstr ""
-
-#: prefs.js
-msgid "GNOME Shell Version"
-msgstr ""
-
-#: prefs.js
-msgid "Help & Support"
-msgstr ""
-
-#: prefs.js
-msgid "Report a Bug"
-msgstr ""
-
-#: prefs.js
-msgid "View on GitHub"
 msgstr ""
 
 #: prefs.js
@@ -173,5 +181,7 @@ msgid "Copyright"
 msgstr ""
 
 #: prefs.js
-msgid "Copyright © 2025 Arnis Kemlers. Licensed under the terms of the GNU General Public License version 3 or later."
+msgid ""
+"Copyright © 2025 Arnis Kemlers. Licensed under the terms of the GNU General "
+"Public License version 3 or later."
 msgstr ""

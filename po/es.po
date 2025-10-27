@@ -5,8 +5,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: kiwimenu\n"
-"Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-10-27 12:00+0000\n"
+"Report-Msgid-Bugs-To: https://github.com/kem-a/kiwimenu-kemma/issues\n"
+"POT-Creation-Date: 2025-10-27 00:00+0000\n"
 "PO-Revision-Date: 2025-10-27 12:00+0000\n"
 "Last-Translator: \n"
 "Language-Team: Spanish\n"
@@ -77,18 +77,6 @@ msgid "Clear menu"
 msgstr "Limpiar menú"
 
 #: prefs.js
-msgid "Panel"
-msgstr "Panel"
-
-#: prefs.js
-msgid "Hide or show the Activities button from the top bar."
-msgstr "Ocultar o mostrar el botón Actividades en la barra superior."
-
-#: prefs.js
-msgid "Hide Activities Menu"
-msgstr "Ocultar menú de Actividades"
-
-#: prefs.js
 msgid "Options"
 msgstr "Opciones"
 
@@ -109,36 +97,56 @@ msgid "Choose the icon to display in the panel."
 msgstr "Elige el icono para mostrar en el panel."
 
 #: prefs.js
-msgid "Show Activities Button"
-msgstr "Mostrar botón de Actividades"
+msgid "Panel"
+msgstr "Panel"
+
+#: prefs.js
+msgid "Hide or show the Activities button from the top bar."
+msgstr "Ocultar o mostrar el botón Actividades en la barra superior."
+
+#: prefs.js
+msgid "Hide Activities Menu"
+msgstr "Ocultar menú de Actividades"
 
 #: prefs.js
 msgid "Display the Activities button in the top panel."
 msgstr "Mostrar el botón Actividades en el panel superior."
 
 #: prefs.js
+msgid "Quick Settings"
+msgstr "Ajustes rápidos"
+
+#: prefs.js
+msgid "Choose which default quick action buttons stay visible."
+msgstr "Elige qué acciones rápidas predeterminadas permanecen visibles."
+
+#: prefs.js
+msgid "Hide Lock Screen Button"
+msgstr "Ocultar botón de bloquear pantalla"
+
+#: prefs.js
+msgid "Remove the lock screen quick action button."
+msgstr "Quita la acción rápida de bloquear pantalla."
+
+#: prefs.js
+msgid "Hide Power Button"
+msgstr "Ocultar botón de energía"
+
+#: prefs.js
+msgid "Remove the power menu quick action button."
+msgstr "Quita la acción rápida del menú de energía."
+
+#: prefs.js
+msgid "Hide Settings Button"
+msgstr "Ocultar botón de configuración"
+
+#: prefs.js
+msgid "Remove the settings shortcut quick action button."
+msgstr "Quita la acción rápida del acceso a configuración."
+
+#: prefs.js
 msgid "About"
 msgstr "Acerca de"
-
-#: prefs.js
-msgid "Extension Version"
-msgstr "Versión de la extensión"
-
-#: prefs.js
-msgid "GNOME Shell Version"
-msgstr "Versión de GNOME Shell"
-
-#: prefs.js
-msgid "Help & Support"
-msgstr "Ayuda y soporte"
-
-#: prefs.js
-msgid "Report a Bug"
-msgstr "Reportar un error"
-
-#: prefs.js
-msgid "View on GitHub"
-msgstr "Ver en GitHub"
 
 #: prefs.js
 msgid "Website"
@@ -173,5 +181,27 @@ msgid "Copyright"
 msgstr "Derechos de autor"
 
 #: prefs.js
-msgid "Copyright © 2025 Arnis Kemlers. Licensed under the terms of the GNU General Public License version 3 or later."
-msgstr "Copyright © 2025 Arnis Kemlers. Licenciado bajo los términos de la Licencia Pública General de GNU versión 3 o posterior."
+msgid ""
+"Copyright © 2025 Arnis Kemlers. Licensed under the terms of the GNU General "
+"Public License version 3 or later."
+msgstr ""
+"Copyright © 2025 Arnis Kemlers. Licenciado bajo los términos de la Licencia "
+"Pública General de GNU versión 3 o posterior."
+
+#~ msgid "Show Activities Button"
+#~ msgstr "Mostrar botón de Actividades"
+
+#~ msgid "Extension Version"
+#~ msgstr "Versión de la extensión"
+
+#~ msgid "GNOME Shell Version"
+#~ msgstr "Versión de GNOME Shell"
+
+#~ msgid "Help & Support"
+#~ msgstr "Ayuda y soporte"
+
+#~ msgid "Report a Bug"
+#~ msgstr "Reportar un error"
+
+#~ msgid "View on GitHub"
+#~ msgstr "Ver en GitHub"

@@ -5,8 +5,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: kiwimenu\n"
-"Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-10-27 12:00+0000\n"
+"Report-Msgid-Bugs-To: https://github.com/kem-a/kiwimenu-kemma/issues\n"
+"POT-Creation-Date: 2025-10-27 00:00+0000\n"
 "PO-Revision-Date: 2025-10-27 12:00+0000\n"
 "Last-Translator: \n"
 "Language-Team: Latvian\n"
@@ -77,18 +77,6 @@ msgid "Clear menu"
 msgstr "Notīrīt izvēlni"
 
 #: prefs.js
-msgid "Panel"
-msgstr "Panelis"
-
-#: prefs.js
-msgid "Hide or show the Activities button from the top bar."
-msgstr "Paslēpt vai rādīt Aktivitāšu pogu augšējā joslā."
-
-#: prefs.js
-msgid "Hide Activities Menu"
-msgstr "Paslēpt aktivitāšu izvēlni"
-
-#: prefs.js
 msgid "Options"
 msgstr "Opcijas"
 
@@ -109,36 +97,56 @@ msgid "Choose the icon to display in the panel."
 msgstr "Izvēlieties ikonu, ko rādīt panelī."
 
 #: prefs.js
-msgid "Show Activities Button"
-msgstr "Rādīt aktivitāšu pogu"
+msgid "Panel"
+msgstr "Panelis"
+
+#: prefs.js
+msgid "Hide or show the Activities button from the top bar."
+msgstr "Paslēpt vai rādīt Aktivitāšu pogu augšējā joslā."
+
+#: prefs.js
+msgid "Hide Activities Menu"
+msgstr "Paslēpt aktivitāšu izvēlni"
 
 #: prefs.js
 msgid "Display the Activities button in the top panel."
 msgstr "Rādīt Aktivitāšu pogu augšējā panelī."
 
 #: prefs.js
+msgid "Quick Settings"
+msgstr "Ātrie iestatījumi"
+
+#: prefs.js
+msgid "Choose which default quick action buttons stay visible."
+msgstr "Izvēlieties, kuras noklusētās ātrās darbības paliek redzamas."
+
+#: prefs.js
+msgid "Hide Lock Screen Button"
+msgstr "Slēpt pogu Aizslēgt ekrānu"
+
+#: prefs.js
+msgid "Remove the lock screen quick action button."
+msgstr "Noņem ātrās darbības pogu ekrāna aizslēgšanai."
+
+#: prefs.js
+msgid "Hide Power Button"
+msgstr "Slēpt pogu Barošana"
+
+#: prefs.js
+msgid "Remove the power menu quick action button."
+msgstr "Noņem ātrās darbības pogu enerģijas izvēlnei."
+
+#: prefs.js
+msgid "Hide Settings Button"
+msgstr "Slēpt pogu Iestatījumi"
+
+#: prefs.js
+msgid "Remove the settings shortcut quick action button."
+msgstr "Noņem ātrās darbības saīsni uz Iestatījumiem."
+
+#: prefs.js
 msgid "About"
 msgstr "Par"
-
-#: prefs.js
-msgid "Extension Version"
-msgstr "Paplašinājuma versija"
-
-#: prefs.js
-msgid "GNOME Shell Version"
-msgstr "GNOME Shell versija"
-
-#: prefs.js
-msgid "Help & Support"
-msgstr "Palīdzība un atbalsts"
-
-#: prefs.js
-msgid "Report a Bug"
-msgstr "Ziņot par kļūdu"
-
-#: prefs.js
-msgid "View on GitHub"
-msgstr "Skatīt GitHub"
 
 #: prefs.js
 msgid "Website"
@@ -173,5 +181,27 @@ msgid "Copyright"
 msgstr "Autortiesības"
 
 #: prefs.js
-msgid "Copyright © 2025 Arnis Kemlers. Licensed under the terms of the GNU General Public License version 3 or later."
-msgstr "Autortiesības © 2025 Arnis Kemlers. Licencēts saskaņā ar GNU vispārējās publiskās licences 3. vai jaunākas versijas noteikumiem."
+msgid ""
+"Copyright © 2025 Arnis Kemlers. Licensed under the terms of the GNU General "
+"Public License version 3 or later."
+msgstr ""
+"Autortiesības © 2025 Arnis Kemlers. Licencēts saskaņā ar GNU vispārējās "
+"publiskās licences 3. vai jaunākas versijas noteikumiem."
+
+#~ msgid "Show Activities Button"
+#~ msgstr "Rādīt aktivitāšu pogu"
+
+#~ msgid "Extension Version"
+#~ msgstr "Paplašinājuma versija"
+
+#~ msgid "GNOME Shell Version"
+#~ msgstr "GNOME Shell versija"
+
+#~ msgid "Help & Support"
+#~ msgstr "Palīdzība un atbalsts"
+
+#~ msgid "Report a Bug"
+#~ msgstr "Ziņot par kļūdu"
+
+#~ msgid "View on GitHub"
+#~ msgstr "Skatīt GitHub"

@@ -26,8 +26,8 @@ Recommended to pair with [Kiwi is not Apple](https://extensions.gnome.org/extens
 - None
 
 ## Future implementations
-
-- [ ] option to hide default Gnome Power options in QuickSettings
+- [x] add translations
+- [x] option to hide default Gnome Power options in QuickSettings
 - [ ] Force quit to rebuild using popup window with a list of killable apps instead of crossair
 
 
