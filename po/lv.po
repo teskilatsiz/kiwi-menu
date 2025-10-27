@@ -33,7 +33,7 @@ msgstr "Nesenās lietas"
 
 #: src/kiwimenu.js
 msgid "Force Quit"
-msgstr "Piespiedu izeja"
+msgstr "Piespiedu aizvēršana"
 
 #: src/kiwimenu.js
 msgid "Sleep"
@@ -53,12 +53,12 @@ msgstr "Aizslēgt ekrānu"
 
 #: src/kiwimenu.js
 msgid "Log Out..."
-msgstr "Atteikties..."
+msgstr "Izrakstīties..."
 
 #: src/kiwimenu.js
 #, javascript-format
 msgid "Log Out %s..."
-msgstr "Atteikties %s..."
+msgstr "Izrakstīties %s..."
 
 #: src/recentItemsSubmenu.js
 msgid "No recent items"
