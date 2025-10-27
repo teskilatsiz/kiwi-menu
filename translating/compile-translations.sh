@@ -5,7 +5,7 @@
 
 set -e
 
-EXTENSION_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+EXTENSION_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
 UUID="kiwimenu@kemma"
 TEMP_DIR=$(mktemp -d)
 
