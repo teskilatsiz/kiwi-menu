@@ -75,7 +75,7 @@ msgid "Folders"
 msgstr "文件夹"
 
 #: src/recentItemsSubmenu.js
-msgid "Clear menu"
+msgid "Clear Menu"
 msgstr "清除菜单"
 
 #: prefs.js

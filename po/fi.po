@@ -73,7 +73,7 @@ msgid "Folders"
 msgstr "Kansiot"
 
 #: src/recentItemsSubmenu.js
-msgid "Clear menu"
+msgid "Clear Menu"
 msgstr "Tyhjennä valikko"
 
 #: prefs.js

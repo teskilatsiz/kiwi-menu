@@ -231,7 +231,7 @@ export const RecentItemsSubmenu = GObject.registerClass(
     if (hasEntries) {
       menu.addMenuItem(new PopupMenu.PopupSeparatorMenuItem());
 
-      const clearItem = new PopupMenu.PopupMenuItem(this._gettext('Clear menu'));
+      const clearItem = new PopupMenu.PopupMenuItem(this._gettext('Clear Menu'));
       clearItem.connect('activate', () => this._clearRecentItems());
       menu.addMenuItem(clearItem);
     }

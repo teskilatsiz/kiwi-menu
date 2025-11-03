@@ -73,7 +73,7 @@ msgid "Folders"
 msgstr "Aplankai"
 
 #: src/recentItemsSubmenu.js
-msgid "Clear menu"
+msgid "Clear Menu"
 msgstr "Išvalyti meniu"
 
 #: prefs.js

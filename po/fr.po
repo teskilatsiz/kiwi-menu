@@ -73,7 +73,7 @@ msgid "Folders"
 msgstr "Dossiers"
 
 #: src/recentItemsSubmenu.js
-msgid "Clear menu"
+msgid "Clear Menu"
 msgstr "Effacer le menu"
 
 #: prefs.js
