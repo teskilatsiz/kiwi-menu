@@ -100,15 +100,15 @@ msgstr "调整 Kiwi 菜单的外观与行为。"
 
 #: prefs.js
 msgid "App Store Command"
-msgstr ""
+msgstr "App Store 启动命令"
 
 #: prefs.js
 msgid "Command launched when opening the App Store menu item."
-msgstr ""
+msgstr "打开 App Store 菜单项时启动的命令。"
 
 #: prefs.js
 msgid "Restore Default"
-msgstr ""
+msgstr "恢复默认"
 
 #: prefs.js
 msgid "Menu Icon"
