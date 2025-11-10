@@ -10,7 +10,8 @@
 
 Kiwi Menu replaces the Activities button with a compact, macOS-inspired launcher that keeps your most common session actions one click away.
 
-<img width="400" height="420" alt="Screenshot From 2025-11-10 22-38-46" src="https://github.com/user-attachments/assets/2854f51e-7bd1-454b-838a-a39f7cf65dc9" />
+
+<img width="401" height="420" alt="Screenshot From 2025-11-10 23-01-25" src="https://github.com/user-attachments/assets/0c32eda3-ed19-4e53-bc37-0e91d82a6d62" />
 
 
 ## Features
