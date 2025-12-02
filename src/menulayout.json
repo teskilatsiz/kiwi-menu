@@ -61,12 +61,6 @@
   },
   {
     "type": "menu",
-    "title": "Switch User...",
-    "cmds": ["gdmflexiserver"],
-    "requiresMultipleUsers": true
-  },
-  {
-    "type": "menu",
     "title": "Log Out...",
     "cmds": ["gnome-session-quit", "--logout"]
   }

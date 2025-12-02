@@ -46,3 +46,63 @@
   color: rgba(255, 255, 255, 0.9);
   text-shadow: none;
 }
+
+.kiwi-user-switcher-button {
+  margin-left: 6px;
+  margin-right: 6px;
+  border-radius: 12px;
+}
+
+.kiwi-user-switcher-menu {
+  min-width: 280px;
+  padding: 6px 0;
+}
+
+.kiwi-user-grid-container {
+  padding: 12px;
+}
+
+.kiwi-user-grid {
+  spacing: 24px;
+}
+
+.kiwi-user-item {
+  border-radius: 12px;
+  padding: 12px;
+}
+
+.kiwi-user-item:hover {
+  background-color: rgba(255, 255, 255, 0.1);
+}
+
+.kiwi-user-item-content {
+  spacing: 8px;
+}
+
+.kiwi-user-card-avatar-frame {
+  width: 64px;
+  height: 64px;
+  border-radius: 32px;
+  overflow: hidden;
+  border: 2px solid transparent;
+}
+
+.kiwi-user-card-avatar-frame.logged-in {
+  border-color: var(--accent-bg-color, #3584e4);
+}
+
+.kiwi-user-card-avatar {
+  border-radius: 999px;
+  background-size: cover;
+  background-position: center;
+}
+
+.kiwi-user-card-name {
+  font-weight: bold;
+  font-size: 1.1em;
+  text-align: center;
+}
+
+.kiwi-user-switcher-empty {
+  font-style: italic;
+}
