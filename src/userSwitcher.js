@@ -327,7 +327,7 @@ export const UserSwitcherButton = GObject.registerClass(
           style_class: isCurrent
             ? 'kiwi-user-session-badge current-user'
             : 'kiwi-user-session-badge',
-          icon_name: 'emblem-ok-symbolic',
+          icon_name: 'object-select-symbolic',
           icon_size: 14,
           x_expand: true,
           y_expand: true,
