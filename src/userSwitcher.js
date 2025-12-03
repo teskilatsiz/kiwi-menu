@@ -28,6 +28,7 @@ export const UserSwitcherButton = GObject.registerClass(
       this._extension = extension;
       this._menuSignals = [];
       this._userManager = null;
+      this._repaintFuncId = 0;
       this._gettext = extension?.gettext?.bind(extension) ?? ((text) => text);
       this._buttonIcon = new St.Icon({
         icon_name: DEFAULT_BUTTON_ICON,
@@ -61,6 +62,8 @@ export const UserSwitcherButton = GObject.registerClass(
         this.menu.disconnect(this._menuOpenSignalId);
         this._menuOpenSignalId = 0;
       }
+
+      this._clearRepaintFunc();
 
       this._userManager = null;
       this._extension = null;
@@ -172,6 +175,13 @@ export const UserSwitcherButton = GObject.registerClass(
       );
 
       this._updatePanelIcon(users, currentUserName);
+    }
+
+    _clearRepaintFunc() {
+      if (this._repaintFuncId) {
+        Clutter.threads_remove_repaint_func(this._repaintFuncId);
+        this._repaintFuncId = 0;
+      }
     }
 
     /**
@@ -414,7 +424,10 @@ export const UserSwitcherButton = GObject.registerClass(
       }
 
       // Use repaint func to ensure lock animation completes before switching to GDM
-      Clutter.threads_add_repaint_func(Clutter.RepaintFlags.POST_PAINT, () => {
+      // Track the source ID so it can be removed when superseded or during destroy()
+      this._clearRepaintFunc();
+      this._repaintFuncId = Clutter.threads_add_repaint_func(Clutter.RepaintFlags.POST_PAINT, () => {
+        this._repaintFuncId = 0;
         try {
           Gdm.goto_login_session_sync(null);
         } catch (error) {
