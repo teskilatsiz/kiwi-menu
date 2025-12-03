@@ -25,12 +25,6 @@
   max-width: 300px;
 }
 
-.popup-subtitle-menu-item {
-  font-weight: bold;
-  font-size: 0.9em;
-  color: var(--accent-fg-color);
-}
-
 .popup-section-header-label {
   font-weight: bold;
   font-size: 0.9em;
@@ -47,24 +41,17 @@
   text-shadow: none;
 }
 
-
-/* User Switcher Styles */
-
+/*###############################################*/
+/*            User Switcher Styles               */
+/*###############################################*/
 .kiwi-user-switcher-button {
-  margin-left: 6px;
-  margin-right: 6px;
-  border-radius: 12px;
+  margin-left: 3px;
+  margin-right: 3px;
 }
 
 .kiwi-user-switcher-menu {
   min-width: 400px;
   padding: 6px 0;
-}
-
-.kiwi-user-grid-container {
-  padding-left: 12px;
-  padding-right: 12px;
-  padding-top: 12px;
 }
 
 .kiwi-user-grid {
@@ -91,11 +78,15 @@
   height: 64px;
   border-radius: 32px;
   overflow: hidden;
-  /*border: 2px solid transparent;*/
+  border: 2px solid transparent;
 }
 
 .kiwi-user-card-avatar-frame.logged-in {
-  border-color: var(--accent-bg-color, #3584e4);
+ /* border-color: -st-accent-color; */
+}
+
+.kiwi-user-card-avatar-frame.current-user {
+  /*border-color: gold;*/
 }
 
 .kiwi-user-card-avatar {
@@ -106,11 +97,34 @@
 
 .kiwi-user-card-name {
   font-weight: bold;
-  font-size: 1.1em;
   text-align: center;
   margin-top: 8px;
 }
 
 .kiwi-user-switcher-empty {
   font-style: italic;
+}
+
+/* Avatar container for badge positioning */
+.kiwi-user-avatar-container {
+  width: 68px;
+  height: 68px;
+}
+
+/* Session badge (checkmark) for logged-in users */
+.kiwi-user-session-badge {
+  background-color: -st-accent-color;
+  border-radius: 99px;
+  padding: 3px;
+  font-weight: bold;
+  color: white;
+  border: 1px solid;
+  border-color: lightgray;
+}
+
+.kiwi-user-session-badge.current-user {
+  background-color: darkgoldenrod;
+  color: white;
+  border: 1px solid;
+  border-color: lightgray;
 }

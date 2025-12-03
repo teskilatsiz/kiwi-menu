@@ -127,6 +127,7 @@ export const UserSwitcherButton = GObject.registerClass(
 
       const currentUserName = GLib.get_user_name();
       const users = this._collectVisibleUsers(currentUserName);
+      const sessionInfo = this._getSessionInfo();
 
       if (users.length === 0) {
         const placeholder = new PopupMenu.PopupMenuItem(this._gettext('No eligible user accounts found'));
@@ -152,7 +153,7 @@ export const UserSwitcherButton = GObject.registerClass(
             gridContainer.add_child(currentRow);
           }
 
-          const userWidget = this._createUserWidget(user, currentUserName);
+          const userWidget = this._createUserWidget(user, currentUserName, sessionInfo);
           userWidget.set_x_expand(true);
           currentRow.add_child(userWidget);
         });
@@ -171,6 +172,47 @@ export const UserSwitcherButton = GObject.registerClass(
       );
 
       this._updatePanelIcon(users, currentUserName);
+    }
+
+    /**
+     * Get session information from loginctl.
+     * Returns an object with:
+     * - loggedInUsers: Set of usernames with active sessions
+     * - sessions: Map of username -> {sessionId, seat, sessionClass} for graphical sessions
+     */
+    _getSessionInfo() {
+      const loggedInUsers = new Set();
+      const sessions = new Map();
+
+      try {
+        const proc = Gio.Subprocess.new(
+          ['loginctl', 'list-sessions', '--no-legend', '--no-pager'],
+          Gio.SubprocessFlags.STDOUT_PIPE | Gio.SubprocessFlags.STDERR_PIPE
+        );
+
+        const [, stdout] = proc.communicate_utf8(null, null);
+        if (stdout) {
+          const lines = stdout.trim().split('\n');
+          for (const line of lines) {
+            const parts = line.trim().split(/\s+/);
+            // Format: SESSION UID USER SEAT LEADER CLASS TTY IDLE SINCE
+            if (parts.length >= 6) {
+              const [sessionId, , userName, seat, , sessionClass] = parts;
+              if (userName) {
+                loggedInUsers.add(userName);
+                // Store graphical session info (user class on a seat)
+                if (seat && seat !== '-' && sessionClass === 'user' && !sessions.has(userName)) {
+                  sessions.set(userName, { sessionId, seat, sessionClass });
+                }
+              }
+            }
+          }
+        }
+      } catch (error) {
+        logError(error, 'Failed to get session info from loginctl');
+      }
+
+      return { loggedInUsers, sessions };
     }
 
     _collectVisibleUsers(currentUserName) {
@@ -224,11 +266,11 @@ export const UserSwitcherButton = GObject.registerClass(
       return GLib.utf8_collate(aName, bName);
     }
 
-    _createUserWidget(user, currentUserName) {
+    _createUserWidget(user, currentUserName, sessionInfo) {
       const displayName = user.get_real_name?.() || user.get_user_name?.() || '';
       const username = user.get_user_name?.() || '';
       const isCurrent = username === currentUserName;
-      const isSignedIn = Boolean(user.is_logged_in_anywhere?.());
+      const isSignedIn = sessionInfo.loggedInUsers.has(username);
 
       const button = new St.Button({
         style_class: 'kiwi-user-item',
@@ -249,10 +291,24 @@ export const UserSwitcherButton = GObject.registerClass(
         x_align: Clutter.ActorAlign.CENTER,
       });
 
-      const avatarBin = new St.Bin({ style_class: 'kiwi-user-card-avatar-frame' });
+      // Container for avatar + badge overlay using Clutter.BinLayout for stacking
+      const avatarContainer = new St.Widget({
+        style_class: 'kiwi-user-avatar-container',
+        layout_manager: new Clutter.BinLayout(),
+        x_expand: false,
+        y_expand: false,
+      });
+
+      const avatarBin = new St.Bin({
+        style_class: 'kiwi-user-card-avatar-frame',
+        x_expand: true,
+        y_expand: true,
+      });
       avatarBin.clip_to_allocation = true;
 
-      if (isCurrent || isSignedIn) {
+      if (isCurrent) {
+        avatarBin.add_style_class_name('current-user');
+      } else if (isSignedIn) {
         avatarBin.add_style_class_name('logged-in');
       }
 
@@ -263,7 +319,25 @@ export const UserSwitcherButton = GObject.registerClass(
       });
       avatar.update();
       avatarBin.set_child(avatar);
-      content.add_child(avatarBin);
+      avatarContainer.add_child(avatarBin);
+
+      // Add session badge for logged-in users
+      if (isCurrent || isSignedIn) {
+        const sessionBadge = new St.Icon({
+          style_class: isCurrent
+            ? 'kiwi-user-session-badge current-user'
+            : 'kiwi-user-session-badge',
+          icon_name: 'emblem-ok-symbolic',
+          icon_size: 14,
+          x_expand: true,
+          y_expand: true,
+          x_align: Clutter.ActorAlign.END,
+          y_align: Clutter.ActorAlign.END,
+        });
+        avatarContainer.add_child(sessionBadge);
+      }
+
+      content.add_child(avatarContainer);
 
       const nameLabel = new St.Label({
         text: displayName,
@@ -317,37 +391,12 @@ export const UserSwitcherButton = GObject.registerClass(
     }
 
     _activateUserSession(username) {
-      // Get the session ID for this user using loginctl
       try {
-        const proc = Gio.Subprocess.new(
-          ['loginctl', 'list-sessions', '--no-legend', '--no-pager'],
-          Gio.SubprocessFlags.STDOUT_PIPE | Gio.SubprocessFlags.STDERR_PIPE
-        );
+        const { sessions } = this._getSessionInfo();
+        const sessionData = sessions.get(username);
 
-        const [, stdout] = proc.communicate_utf8(null, null);
-        if (!stdout) {
-          return false;
-        }
-
-        // Parse loginctl output to find user's graphical session
-        // Format: SESSION UID USER SEAT LEADER CLASS TTY IDLE SINCE
-        const lines = stdout.trim().split('\n');
-        let sessionId = null;
-
-        for (const line of lines) {
-          const parts = line.trim().split(/\s+/);
-          if (parts.length >= 6) {
-            const [sid, , user, seat, , sessionClass] = parts;
-            // Match username and look for graphical session (user class on a seat)
-            if (user === username && seat && seat !== '-' && sessionClass === 'user') {
-              sessionId = sid;
-              break;
-            }
-          }
-        }
-
-        if (sessionId) {
-          Util.spawn(['loginctl', 'activate', sessionId]);
+        if (sessionData) {
+          Util.spawn(['loginctl', 'activate', sessionData.sessionId]);
           return true;
         }
         
