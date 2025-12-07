@@ -28,6 +28,7 @@ export const UserSwitcherButton = GObject.registerClass(
       this._extension = extension;
       this._menuSignals = [];
       this._userManager = null;
+      this._loginManagerProxy = null;
       this._repaintFuncId = 0;
       this._gettext = extension?.gettext?.bind(extension) ?? ((text) => text);
       this._buttonIcon = new St.Icon({
@@ -65,6 +66,7 @@ export const UserSwitcherButton = GObject.registerClass(
 
       this._clearRepaintFunc();
 
+      this._loginManagerProxy = null;
       this._userManager = null;
       this._extension = null;
 
@@ -72,12 +74,7 @@ export const UserSwitcherButton = GObject.registerClass(
     }
 
     _initUserManager() {
-      try {
-        this._userManager = AccountsService.UserManager.get_default();
-      } catch (error) {
-        logError(error, 'Failed to acquire AccountsService.UserManager');
-        return;
-      }
+      this._userManager = AccountsService.UserManager.get_default();
 
       if (!this._userManager) {
         return;
@@ -91,14 +88,10 @@ export const UserSwitcherButton = GObject.registerClass(
         this._userManager.connect('user-is-logged-in-changed', () => this._rebuildMenu()),
       ];
 
-      try {
-        if (this._userManager.is_loaded) {
-          this._rebuildMenu();
-        } else {
-          this._userManager.list_users();
-        }
-      } catch (error) {
-        logError(error, 'Failed to initialize user list');
+      if (this._userManager.is_loaded) {
+        this._rebuildMenu();
+      } else {
+        this._userManager.list_users();
       }
     }
 
@@ -107,13 +100,7 @@ export const UserSwitcherButton = GObject.registerClass(
         return;
       }
 
-      this._menuSignals.forEach((id) => {
-        try {
-          this._userManager.disconnect(id);
-        } catch (error) {
-          logError(error, 'Failed to disconnect AccountsService signal');
-        }
-      });
+      this._menuSignals.filter((id) => id > 0).forEach((id) => this._userManager.disconnect(id));
       this._menuSignals = [];
     }
 
@@ -184,8 +171,91 @@ export const UserSwitcherButton = GObject.registerClass(
       }
     }
 
+    _ensureLoginManagerProxy() {
+      if (this._loginManagerProxy) {
+        return this._loginManagerProxy;
+      }
+
+      try {
+        this._loginManagerProxy = Gio.DBusProxy.new_sync(
+          Gio.DBus.system,
+          Gio.DBusProxyFlags.NONE,
+          null,
+          'org.freedesktop.login1',
+          '/org/freedesktop/login1',
+          'org.freedesktop.login1.Manager',
+          null
+        );
+      } catch (error) {
+        logError(error, 'Failed to acquire login1 Manager proxy');
+        this._loginManagerProxy = null;
+      }
+
+      return this._loginManagerProxy;
+    }
+
+    _getSessionClass(sessionPath) {
+      if (typeof sessionPath !== 'string') {
+        return null;
+      }
+
+      if (!sessionPath.startsWith('/org/freedesktop/login1/session/')) {
+        return null;
+      }
+
+      try {
+        const sessionProxy = Gio.DBusProxy.new_sync(
+          Gio.DBus.system,
+          Gio.DBusProxyFlags.GET_INVALIDATED_PROPERTIES,
+          null,
+          'org.freedesktop.login1',
+          sessionPath,
+          'org.freedesktop.login1.Session',
+          null
+        );
+
+        if (!sessionProxy) {
+          return null;
+        }
+
+        const classVariant = sessionProxy.get_cached_property('Class');
+        return classVariant?.deepUnpack?.() ?? null;
+      } catch (error) {
+        logError(error, `Failed to read session class for ${sessionPath}`);
+        return null;
+      }
+    }
+
+    _getSessionActiveState(sessionPath) {
+      if (typeof sessionPath !== 'string' || !sessionPath.startsWith('/org/freedesktop/login1/session/')) {
+        return null;
+      }
+
+      try {
+        const sessionProxy = Gio.DBusProxy.new_sync(
+          Gio.DBus.system,
+          Gio.DBusProxyFlags.GET_INVALIDATED_PROPERTIES,
+          null,
+          'org.freedesktop.login1',
+          sessionPath,
+          'org.freedesktop.login1.Session',
+          null
+        );
+
+        if (!sessionProxy) {
+          return null;
+        }
+
+        const activeVariant = sessionProxy.get_cached_property('Active');
+        return activeVariant?.deepUnpack?.() ?? null;
+      } catch (error) {
+        logError(error, `Failed to read session active state for ${sessionPath}`);
+        return null;
+      }
+    }
+
     /**
-     * Get session information from loginctl.
+     * Get session information via org.freedesktop.login1 D-Bus API.
      * Returns an object with:
      * - loggedInUsers: Set of usernames with active sessions
      * - sessions: Map of username -> {sessionId, seat, sessionClass} for graphical sessions
@@ -194,45 +264,59 @@ export const UserSwitcherButton = GObject.registerClass(
       const loggedInUsers = new Set();
       const sessions = new Map();
 
+      const loginManagerProxy = this._ensureLoginManagerProxy();
+      if (!loginManagerProxy) {
+        return { loggedInUsers, sessions };
+      }
+
       try {
-        const proc = Gio.Subprocess.new(
-          ['loginctl', 'list-sessions', '--no-legend', '--no-pager'],
-          Gio.SubprocessFlags.STDOUT_PIPE | Gio.SubprocessFlags.STDERR_PIPE
+        const result = loginManagerProxy.call_sync(
+          'ListSessions',
+          null,
+          Gio.DBusCallFlags.NONE,
+          -1,
+          null
         );
 
-        const [, stdout] = proc.communicate_utf8(null, null);
-        if (stdout) {
-          const lines = stdout.trim().split('\n');
-          for (const line of lines) {
-            const parts = line.trim().split(/\s+/);
-            // Format: SESSION UID USER SEAT LEADER CLASS TTY IDLE SINCE
-            if (parts.length >= 6) {
-              const [sessionId, , userName, seat, , sessionClass] = parts;
-              if (userName) {
-                loggedInUsers.add(userName);
-                // Store graphical session info (user class on a seat)
-                if (seat && seat !== '-' && sessionClass === 'user' && !sessions.has(userName)) {
-                  sessions.set(userName, { sessionId, seat, sessionClass });
-                }
-              }
-            }
+        const rawList = result?.deepUnpack?.() ?? [];
+        const sessionList = (rawList.length === 1 && Array.isArray(rawList[0]) && Array.isArray(rawList[0][0]))
+          ? rawList[0]
+          : rawList;
+
+        for (const [sessionId, , userName, seat, sessionPath] of sessionList) {
+          if (!userName) {
+            continue;
+          }
+
+          loggedInUsers.add(userName);
+
+          const sessionPathStr = Array.isArray(sessionPath) ? sessionPath[0] : sessionPath;
+          if (typeof sessionPathStr !== 'string' || !sessionPathStr.startsWith('/org/freedesktop/login1/session/')) {
+            continue;
+          }
+
+          const sessionClass = this._getSessionClass(sessionPathStr);
+          if (sessionClass !== 'user') {
+            continue;
+          }
+
+          const isActive = this._getSessionActiveState(sessionPathStr);
+          const existing = sessions.get(userName);
+
+          // Prefer active session; otherwise keep the first user-class session
+          if (!existing || (isActive === true && existing.isActive !== true)) {
+            sessions.set(userName, { sessionId, seat, sessionClass, isActive: Boolean(isActive) });
           }
         }
       } catch (error) {
-        logError(error, 'Failed to get session info from loginctl');
+        logError(error, 'Failed to get session info from login1 D-Bus');
       }
 
       return { loggedInUsers, sessions };
     }
 
     _collectVisibleUsers(currentUserName) {
-      let userList = [];
-      try {
-        userList = this._userManager.list_users() ?? [];
-      } catch (error) {
-        logError(error, 'Failed to list AccountsService users');
-        return [];
-      }
+      const userList = this._userManager.list_users() ?? [];
 
       const filtered = userList.filter((user) => {
         if (!user || !user.is_loaded) {
@@ -401,18 +485,28 @@ export const UserSwitcherButton = GObject.registerClass(
     }
 
     _activateUserSession(username) {
-      try {
-        const { sessions } = this._getSessionInfo();
-        const sessionData = sessions.get(username);
-
-        if (sessionData) {
-          Util.spawn(['loginctl', 'activate', sessionData.sessionId]);
-          return true;
-        }
-        
+      const { sessions } = this._getSessionInfo();
+      const sessionData = sessions.get(username);
+      if (!sessionData) {
         return false;
+      }
+
+      const loginManagerProxy = this._ensureLoginManagerProxy();
+      if (!loginManagerProxy) {
+        return false;
+      }
+
+      try {
+        loginManagerProxy.call_sync(
+          'ActivateSession',
+          new GLib.Variant('(s)', [sessionData.sessionId]),
+          Gio.DBusCallFlags.NONE,
+          -1,
+          null
+        );
+        return true;
       } catch (error) {
-        logError(error, 'Failed to activate user session');
+        logError(error, 'Failed to activate user session via login1 D-Bus');
         return false;
       }
     }
@@ -438,11 +532,7 @@ export const UserSwitcherButton = GObject.registerClass(
     }
 
     _openUserSettings() {
-      try {
-        Util.spawn(['gnome-control-center', 'system', 'users']);
-      } catch (error) {
-        logError(error, 'Failed to open Users & Groups settings');
-      }
+      Util.spawn(['gnome-control-center', 'system', 'users']);
     }
 
     _updatePanelIcon(users, currentUserName) {
