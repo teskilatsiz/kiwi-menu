@@ -20,6 +20,113 @@ const DEFAULT_BUTTON_ICON = 'system-users-symbolic';
 const AVATAR_ICON_SIZE = 64;
 const MINIMUM_VISIBLE_UID = 1000;
 
+/**
+ * Count real user accounts (UID >= 1000, non-system accounts).
+ */
+function countRealUsers(userManager) {
+  if (!userManager || !userManager.is_loaded) {
+    return 0;
+  }
+
+  const userList = userManager.list_users() ?? [];
+  let realUserCount = 0;
+
+  for (const user of userList) {
+    if (!user || !user.is_loaded) {
+      continue;
+    }
+
+    const uid = Number.parseInt(user.get_uid?.() ?? '-1', 10);
+    if (!Number.isFinite(uid)) {
+      continue;
+    }
+
+    const username = user.get_user_name?.();
+    if (!username) {
+      continue;
+    }
+
+    // Count real users (non-system accounts with UID >= 1000)
+    if (uid >= MINIMUM_VISIBLE_UID && !user.system_account) {
+      realUserCount++;
+    }
+  }
+
+  return realUserCount;
+}
+
+/**
+ * Controller that manages the UserSwitcherButton visibility dynamically.
+ * Adds/removes the button from the panel based on the number of real users.
+ */
+export class UserSwitcherController {
+  constructor(extension) {
+    this._extension = extension;
+    this._userSwitcher = null;
+    this._userManager = null;
+    this._userManagerSignals = [];
+
+    this._initUserManager();
+  }
+
+  destroy() {
+    this._disconnectUserManagerSignals();
+
+    if (this._userSwitcher) {
+      this._userSwitcher.destroy();
+      this._userSwitcher = null;
+    }
+
+    this._userManager = null;
+    this._extension = null;
+  }
+
+  _initUserManager() {
+    this._userManager = AccountsService.UserManager.get_default();
+
+    if (!this._userManager) {
+      return;
+    }
+
+    this._userManagerSignals = [
+      this._userManager.connect('notify::is-loaded', () => this._updateVisibility()),
+      this._userManager.connect('user-added', () => this._updateVisibility()),
+      this._userManager.connect('user-removed', () => this._updateVisibility()),
+    ];
+
+    // Initial visibility check
+    if (this._userManager.is_loaded) {
+      this._updateVisibility();
+    } else {
+      this._userManager.list_users();
+    }
+  }
+
+  _disconnectUserManagerSignals() {
+    if (!this._userManager || !this._userManagerSignals) {
+      return;
+    }
+
+    this._userManagerSignals.filter((id) => id > 0).forEach((id) => this._userManager.disconnect(id));
+    this._userManagerSignals = [];
+  }
+
+  _updateVisibility() {
+    const realUserCount = countRealUsers(this._userManager);
+    const shouldShow = realUserCount > 1;
+
+    if (shouldShow && !this._userSwitcher) {
+      // Add button to panel
+      this._userSwitcher = new UserSwitcherButton(this._extension);
+      Main.panel.addToStatusArea('KiwiUserSwitcher', this._userSwitcher, 1, 'right');
+    } else if (!shouldShow && this._userSwitcher) {
+      // Remove button from panel
+      this._userSwitcher.destroy();
+      this._userSwitcher = null;
+    }
+  }
+}
+
 export const UserSwitcherButton = GObject.registerClass(
   class UserSwitcherButton extends PanelMenu.Button {
     _init(extension) {
