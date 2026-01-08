@@ -1,0 +1,58 @@
+name: Pack and upload GNOME extension on release
+
+on:
+  release:
+    types: [published]
+
+jobs:
+  pack:
+    name: Pack extension and upload
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Install dependencies
+        run: |
+          sudo apt-get update
+          sudo DEBIAN_FRONTEND=noninteractive apt-get install -y gnome-shell zip jq
+
+      - id: pack
+        name: Pack extension and set asset name
+        run: |
+          set -euo pipefail
+          gnome-extensions pack --extra-source=icons --extra-source=src --podir=po kiwimenu@kemma
+          # find the generated shell-extension zip
+          zipfile=$(ls -1 *shell-extension.zip | head -n1)
+          if [ -z "$zipfile" ]; then
+            echo "No shell-extension zip produced"
+            ls -la
+            exit 1
+          fi
+          # extract version from metadata.json
+          version=$(jq -r '.version' metadata.json || true)
+          if [ -z "$version" ] || [ "$version" = "null" ]; then
+            echo "metadata.json has no version; leaving original name"
+            newname="$zipfile"
+          else
+            newname="${zipfile%.zip}-$version.zip"
+            mv -- "$zipfile" "$newname"
+          fi
+          echo "asset=$newname" >> "$GITHUB_OUTPUT"
+
+      - name: Verify package
+        run: ls -la | sed -n '1,200p'
+
+      - name: Upload pack to release
+        uses: actions/upload-release-asset@v1
+        with:
+          upload_url: ${{ github.event.release.upload_url }}
+          asset_path: ${{ steps.pack.outputs.asset }}
+          asset_name: ${{ steps.pack.outputs.asset }}
+          asset_content_type: application/zip
+
+      - name: Upload artifact (backup)
+        uses: actions/upload-artifact@v4
+        with:
+          name: kiwimenu-distribution
+          path: ${{ steps.pack.outputs.asset }}
