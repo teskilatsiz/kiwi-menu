@@ -30,16 +30,17 @@ jobs:
             ls -la
             exit 1
           fi
-          # extract version from metadata.json
-          version=$(jq -r '.version' metadata.json || true)
+          # extract version from metadata.json (use version-name for semver string)
+          version=$(jq -r '."version-name"' metadata.json || true)
           if [ -z "$version" ] || [ "$version" = "null" ]; then
-            echo "metadata.json has no version; leaving original name"
+            echo "metadata.json has no version-name; leaving original name"
             newname="$zipfile"
           else
-            newname="${zipfile%.zip}-$version.zip"
+            newname="${zipfile%.zip}-${version}.zip"
             mv -- "$zipfile" "$newname"
           fi
           echo "asset=$newname" >> "$GITHUB_OUTPUT"
+          echo "asset_name=${newname%.zip}" >> "$GITHUB_OUTPUT"
 
       - name: Verify package
         run: ls -la | sed -n '1,200p'
@@ -58,5 +59,5 @@ jobs:
       - name: Upload artifact (backup)
         uses: actions/upload-artifact@v4
         with:
-          name: kiwimenu-distribution
+          name: ${{ steps.pack.outputs.asset_name }}
           path: ${{ steps.pack.outputs.asset }}
