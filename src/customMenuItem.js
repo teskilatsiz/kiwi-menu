@@ -39,7 +39,19 @@ export function createCustomMenuItem(settings, gettextFunc) {
 
     menuItem.connect('activate', () => {
         try {
-            const [success, argv] = GLib.shell_parse_argv(trimmedCommand);
+            // If command looks like a simple path without shell quoting, quote it
+            // to handle paths with spaces correctly
+            let commandToExecute = trimmedCommand;
+            const needsQuoting = !trimmedCommand.startsWith('"') &&
+                                 !trimmedCommand.startsWith("'") &&
+                                 trimmedCommand.includes(' ') &&
+                                 !trimmedCommand.includes('" ') &&
+                                 !trimmedCommand.includes("' ");
+            if (needsQuoting) {
+                commandToExecute = GLib.shell_quote(trimmedCommand);
+            }
+
+            const [success, argv] = GLib.shell_parse_argv(commandToExecute);
             if (success && Array.isArray(argv) && argv.length > 0) {
                 Util.spawn(argv);
             } else {
